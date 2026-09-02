@@ -20,14 +20,29 @@ public:
 	// Sets default values for this character's properties
 	ASpartaCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	USpringArmComponent* SpringArmComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComp;
+	
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealth()  const;
 
+	UFUNCTION(BlueprintCallable,Category = "Health")
+	void AddHealth(float Amount);
+protected:
+	// Called when the game starts or when spawned
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "health")
+	float MaxHealth;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "health")
+	float Health;
+	
+
+
+
+	virtual void BeginPlay() override;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
@@ -51,11 +66,16 @@ protected:
 	void StopSprint(const FInputActionValue& value);
 
 
+	void OnDeath();
+
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent,
+		AController* EventInstigator, AActor* DamageCauser) override;
 
 };

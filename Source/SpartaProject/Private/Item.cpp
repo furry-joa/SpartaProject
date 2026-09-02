@@ -35,9 +35,7 @@ AItem::AItem()
 void AItem::BeginPlay()
 {
 	Super::BeginPlay();
-
-
-	
+	OnItemPickedUp();
 }
 
 
@@ -53,3 +51,12 @@ void AItem::Tick(float DeltaTime)
 	}
 }
 
+void AItem::ResetActorPosition()
+{
+	SetActorLocation(FVector::ZeroVector);
+}
+
+float AItem::GetRotationSpeed() const
+{
+	return RotationSpeed;
+}
